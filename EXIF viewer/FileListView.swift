@@ -9,27 +9,42 @@
 import Foundation
 import SwiftUI
 
+// Selectable list https://stackoverflow.com/questions/56706188/how-does-one-enable-selections-in-swiftuis-list
+
+
 struct FileList: View {
     var header: Array<String>
-    var data:   Array<Array<String>>
+    var files:  Array<File>
+    @State var selectKeeper = Set<UUID>()
+    
     
     var body : some View {
         VStack {
             Text("Filer:")
+            // Header
             HStack() {
-                Text("Gamalt namn")
+                Text(self.header[0])
                     .fontWeight(.bold).multilineTextAlignment(.leading).padding(.leading, 16.0)
-                Spacer(minLength: 20)
-                Text("Nytt namn")
-                    .fontWeight(.bold).multilineTextAlignment(.trailing).padding(.trailing, 26.0)
+                ForEach(1..<self.header.count, id: \.self) { i in
+                    HStack {
+                        Spacer(minLength: 20)
+                        Text(self.header[i])
+                            .fontWeight(.bold).multilineTextAlignment(.trailing).padding(0.0)
+                    }
+                }
+                .padding(.trailing, 26.0)
             }
             .padding(.leading, 48.0)
-            List(0 ..< 100) { item in
+            // The file list itself
+            List(0 ..< self.files.count) { i in
                 //    Image("Image.png")
-                FileListRow(rawImage: ["File \(item)", "CR2"])
+                FileListRow(file: self.files[i], selectedItems: self.$selectKeeper)
+                    .padding(.leading, 48.0)
+                    .contextMenu {
+                        Text("About")
+                }
             }
         }
-
     }
 }
 
@@ -37,7 +52,10 @@ struct FileListView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             FileList(header: ["Namn", "Dato", "ModelName"],
-                     data: [[""], [""]]//,
+                     files: [
+                        File(array: ["File 0", "CR2", "2020:07:12 12:34:56 UTC+2", "Canon EOS 6D"]),
+                        File(array: ["File 1", "DNG", "2014:08:02 12:34:56 UTC+0", "Hasselblad"])
+                ]//,
                  //    data: [
 //                        ["File 0", "CR2", "2020:07:12 12:34:56 UTC+2"],
   //                      ["File 1", "DNG", "2014:08:02 12:34:56 UTC+0"]
