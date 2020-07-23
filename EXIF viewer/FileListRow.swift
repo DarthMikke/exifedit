@@ -34,7 +34,7 @@ struct FileListRow : View {
                     Text(self.file.array[i])
                 }
             }
-        }.background(self.isSelected ? Color.gray : Color.clear)
+        }.background(self.isSelected ? Color.blue : Color.clear)
          .onTapGesture {
             if(self.isSelected) {
                 self.selectedItems.remove(self.file.id)

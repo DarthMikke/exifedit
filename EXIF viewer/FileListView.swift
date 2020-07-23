@@ -20,16 +20,15 @@ struct FileList: View {
     
     var body : some View {
         VStack {
-            Text("Filer:")
+            Text("Filer:").font(.subheadline).padding(.bottom, 2.0)
             // Header
             HStack() {
                 Text(self.header[0])
-                    .fontWeight(.bold).multilineTextAlignment(.leading).padding(.leading, 16.0)
+                    .multilineTextAlignment(.leading).padding(0.0)
                 ForEach(1..<self.header.count, id: \.self) { i in
                     HStack {
-                        Spacer(minLength: 20)
-                        Text(self.header[i])
-                            .fontWeight(.bold).multilineTextAlignment(.trailing).padding(0.0)
+                        Spacer()//minLength: 20)
+                        Text(self.header[i]).multilineTextAlignment(.trailing).padding(0.0)
                     }
                 }
                 .padding(.trailing, 26.0)
@@ -38,12 +37,16 @@ struct FileList: View {
             // The file list itself
             List(0 ..< self.files.count) { i in
                 //    Image("Image.png")
+                VStack {
                 FileListRow(file: self.files[i], selectedItems: self.$selectKeeper)
                     .padding(.leading, 48.0)
                     .contextMenu {
-                        Text("About")
+                        Text("Vis i Finder")
+                }
+                Divider()
                 }
             }
+            .padding(-8.0)
         }
     }
 }
