@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7526AA0324C89F1F009A52D1 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7526AA0224C89F1F009A52D1 /* utils.swift */; };
+		7526AA0524C89F39009A52D1 /* RawImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7526AA0424C89F39009A52D1 /* RawImage.swift */; };
+		7544267D24C9635000D38482 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544267C24C9635000D38482 /* FileListView.swift */; };
+		7544267F24C9657400D38482 /* FileListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544267E24C9657400D38482 /* FileListRow.swift */; };
+		7544268124C9C02600D38482 /* test.CR2 in Resources */ = {isa = PBXBuildFile; fileRef = 7544268024C9C02600D38482 /* test.CR2 */; };
+		757F59BF24C8BBA400F7B449 /* Image.png in Resources */ = {isa = PBXBuildFile; fileRef = 757F59BE24C8BBA400F7B449 /* Image.png */; };
+		75AFD6E424DC82160077C7E5 /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AFD6E324DC82160077C7E5 /* functions.swift */; };
 		75D9A24924C726520047546F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D9A24824C726520047546F /* AppDelegate.swift */; };
 		75D9A24B24C726520047546F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D9A24A24C726520047546F /* ContentView.swift */; };
 		75D9A24D24C726570047546F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75D9A24C24C726570047546F /* Assets.xcassets */; };
@@ -14,6 +21,7 @@
 		75D9A25324C726570047546F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75D9A25124C726570047546F /* Main.storyboard */; };
 		75D9A25F24C726570047546F /* EXIF_viewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D9A25E24C726570047546F /* EXIF_viewerTests.swift */; };
 		75D9A26A24C726570047546F /* EXIF_viewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D9A26924C726570047546F /* EXIF_viewerUITests.swift */; };
+		75DB3C2C24D20046009B0384 /* DateOffsetPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DB3C2B24D20046009B0384 /* DateOffsetPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +42,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7526AA0224C89F1F009A52D1 /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
+		7526AA0424C89F39009A52D1 /* RawImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawImage.swift; sourceTree = "<group>"; };
+		7544267C24C9635000D38482 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
+		7544267E24C9657400D38482 /* FileListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListRow.swift; sourceTree = "<group>"; };
+		7544268024C9C02600D38482 /* test.CR2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.CR2; sourceTree = "<group>"; };
+		757F59BE24C8BBA400F7B449 /* Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Image.png; sourceTree = "<group>"; };
+		75AFD6E324DC82160077C7E5 /* functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
 		75D9A24524C726520047546F /* EXIF viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EXIF viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75D9A24824C726520047546F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75D9A24A24C726520047546F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -48,6 +63,7 @@
 		75D9A26524C726570047546F /* EXIF viewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EXIF viewerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75D9A26924C726570047546F /* EXIF_viewerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXIF_viewerUITests.swift; sourceTree = "<group>"; };
 		75D9A26B24C726570047546F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75DB3C2B24D20046009B0384 /* DateOffsetPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateOffsetPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +114,16 @@
 		75D9A24724C726520047546F /* EXIF viewer */ = {
 			isa = PBXGroup;
 			children = (
+				757F59BE24C8BBA400F7B449 /* Image.png */,
+				7544268024C9C02600D38482 /* test.CR2 */,
 				75D9A24824C726520047546F /* AppDelegate.swift */,
 				75D9A24A24C726520047546F /* ContentView.swift */,
+				7544267C24C9635000D38482 /* FileListView.swift */,
+				7544267E24C9657400D38482 /* FileListRow.swift */,
+				75DB3C2B24D20046009B0384 /* DateOffsetPicker.swift */,
+				7526AA0224C89F1F009A52D1 /* utils.swift */,
+				7526AA0424C89F39009A52D1 /* RawImage.swift */,
+				75AFD6E324DC82160077C7E5 /* functions.swift */,
 				75D9A24C24C726570047546F /* Assets.xcassets */,
 				75D9A25124C726570047546F /* Main.storyboard */,
 				75D9A25424C726570047546F /* Info.plist */,
@@ -198,7 +222,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = "Michal Jan Warecki";
 				TargetAttributes = {
 					75D9A24424C726520047546F = {
@@ -242,6 +266,8 @@
 				75D9A25324C726570047546F /* Main.storyboard in Resources */,
 				75D9A25024C726570047546F /* Preview Assets.xcassets in Resources */,
 				75D9A24D24C726570047546F /* Assets.xcassets in Resources */,
+				7544268124C9C02600D38482 /* test.CR2 in Resources */,
+				757F59BF24C8BBA400F7B449 /* Image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +292,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7544267F24C9657400D38482 /* FileListRow.swift in Sources */,
+				75DB3C2C24D20046009B0384 /* DateOffsetPicker.swift in Sources */,
+				7526AA0324C89F1F009A52D1 /* utils.swift in Sources */,
+				75AFD6E424DC82160077C7E5 /* functions.swift in Sources */,
+				7544267D24C9635000D38482 /* FileListView.swift in Sources */,
+				7526AA0524C89F39009A52D1 /* RawImage.swift in Sources */,
 				75D9A24B24C726520047546F /* ContentView.swift in Sources */,
 				75D9A24924C726520047546F /* AppDelegate.swift in Sources */,
 			);
@@ -432,6 +464,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "EXIF viewer/EXIF_viewer.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"EXIF viewer/Preview Content\"";
@@ -453,6 +486,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "EXIF viewer/EXIF_viewer.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"EXIF viewer/Preview Content\"";

@@ -9,9 +9,20 @@
 import Foundation
 import SwiftUI
 
-struct File: Identifiable {
-    let id = UUID()
-    let array : Array<String>
+class File: Identifiable {
+    let id: UUID
+    @Published var dict : Dictionary<String, String>
+    
+    init (dict: Dictionary<String, String>) {
+        self.id = UUID()
+        self.dict = dict
+    }
+    
+    func changeValue(value: String, to: String) {
+        if (value == "Modifikasjonsdato") {
+            
+        }
+    }
 }
 
 struct FileListRow : View {
@@ -20,22 +31,36 @@ struct FileListRow : View {
     var isSelected: Bool {
         selectedItems.contains(file.id)
     }
+    @Binding var activeColumns: Array<String>
+    
+    func noActiveColumns() -> Int {
+        return self.activeColumns.count
+    }
+    
+    func getColumnByNo(index: Int) -> String {
+        guard let ret = self.file.dict[self.activeColumns[index]] else { return "-" }
+        print(index)
+        print(self.activeColumns)
+        return String(ret)
+    }
     
     var body: some View {
-        HStack {
+        HStack(alignment: .center) {
             VStack(alignment: .leading) {
-                Text(self.file.array[0])
+                Text(self.file.dict["filename"]!)
                     .fontWeight(.bold)
-                Text(self.file.array[1])
+                Text(self.file.dict["extension"]!)
             }
-            ForEach(2..<self.file.array.count, id: \.self) { i in
+            
+            ForEach(1..<self.noActiveColumns(), id: \.self) { i in
                 HStack {
                     Spacer(minLength: 20)
-                    Text(self.file.array[i])
+                    Text(self.getColumnByNo(index: i))
                 }
             }
-        }.background(self.isSelected ? Color.blue : Color.clear)
-         .onTapGesture {
+        }
+        .background(self.isSelected ? Color.init(red: 0.098, green: 0.4, blue: 0.851) : Color.clear)
+        .onTapGesture {
             if(self.isSelected) {
                 self.selectedItems.remove(self.file.id)
                 print(self.selectedItems)
