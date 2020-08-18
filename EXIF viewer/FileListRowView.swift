@@ -9,22 +9,6 @@
 import Foundation
 import SwiftUI
 
-class File: Identifiable {
-    let id: UUID
-    @Published var dict : Dictionary<String, String>
-    
-    init (dict: Dictionary<String, String>) {
-        self.id = UUID()
-        self.dict = dict
-    }
-    
-    func changeValue(property: String, value: String) {
-//        self.dict[property] = unwrapProperty(property: property, newValue: value, withData: self.dict)
-        print("File: New value of property \(property): \(value)")
-        print("File: Value rendered as \(unwrapProperty(property: property, newValue: value, withData: self.dict))")
-    }
-}
-
 struct FileListRow : View {
     /**
      TODO: The rows update after a click.
