@@ -37,16 +37,21 @@ class ContentViewModel: ObservableObject {
     @Published var newFileList: Array<File>
     @Published var exifProperties: Array<String>
     @Published var exifData: Array<EXIFTag>
-    @Published var newProperty: String
+    @Published var selectedFiles: Set<UUID>
+    @Published var selectedNewFiles: Set<UUID>
     
     init(filelist: Array<File>) {
         self.filepath = ""
         self.fileList = filelist
         self.newFileList = filelist
-        self.exifProperties = ["Namn",
-                               "Kameramodell",
-                               "Modifikasjonsdato",
-                               "Opphavsperson"]
+        
+        self.selectedFiles = []
+        self.selectedNewFiles = []
+        
+        self.exifProperties = ["filename",
+                               "Model",
+                               "ModifiedDate",
+                               "Author"]
         self.exifData = [EXIFTag(EXIFid: 0x0110,
                                  type: 8,
                                  count: 20,
@@ -59,13 +64,17 @@ class ContentViewModel: ObservableObject {
                                  type: 1,
                                  count: 1,
                                  value: "3648")]
-        self.newProperty = ""
     }
     
-    func update(property: String) {
+    func update(property: String, value: String) {
         var i = 0
         repeat {
-            self.newFileList[i].dict[property] = self.newProperty
+            print("ContentViewModel: New value of property \(property): '\(value)' for file \(self.newFileList[i].dict["filename"]!)")
+            /// TODO: Error handling – vis beskjed om "property" har feil verdi
+            /// Den kommenterte linja funkar ikkje
+//            self.newFileList[i].changeValue(property: property, value: value)
+            self.newFileList[i].dict[property] = unwrapProperty(property: property, newValue: value, withData: self.newFileList[i].dict)
+            
             i += 1
         } while (i < self.newFileList.count)
     }
@@ -76,25 +85,13 @@ struct ContentView: View {
         File(dict: [
             "filename": "File 0",
             "extension": "CR2",
-            "date": "2020:07:12 12:34:56 UTC+2",
-            "ModelName": "Canon EOS 6D"]),
+            "ModifyDate": "2020:07:12 12:34:56",
+            "Model": "Canon EOS 6D"]),
         File(dict: [
             "filename": "File 1",
             "extension": "DNG",
-            "date": "2014:08:02 12:34:56 UTC+0",
-            "ModelName": "Hasselblad"])
-    ]
-    var newFileList: Array<File> = [
-        File(dict: [
-            "filename": "File 0",
-            "extension": "CR2",
-            "date": "2020:07:12 12:34:56 UTC+2",
-            "ModelName": "Canon EOS 6D"]),
-        File(dict: [
-            "filename": "File 1",
-            "extension": "DNG",
-            "date": "2014:08:02 12:34:56 UTC+0",
-            "ModelName": "Hasselblad"])
+            "ModifyDate": "2014:08:02 12:34:56",
+            "Model": "Hasselblad"])
     ]
     @ObservedObject var viewModel: ContentViewModel
     
@@ -102,31 +99,29 @@ struct ContentView: View {
         self.viewModel = ContentViewModel(filelist: self.testdata)
     }
     
-    var availableColumns = ["filename": "Namn","extension": "Format", "date": "Dato", "ModelName": "Modell"]
-    var header = ["filename", "date", "ModelName"]
+    var availableColumns = ["filename": "Namn","extension": "Format", "ModifyDate": "Dato", "Model": "Modell"]
+    var header = ["filename", "ModifyDate", "Model"]
 
     // EXIF-vindu
-    var properties = ["Namn", "Kameramodell", "Modifikasjonsdato", "Opphavsperson"]
     @State private var selectedPropertyIndex = 0
-    var EXIFData: [EXIFTag] = [EXIFTag(EXIFid: 0x0110, type: 8, count: 20, value: "Canon EOS 6D"), EXIFTag(EXIFid: 0x0100, type: 1, count: 1, value: "5472"), EXIFTag(EXIFid: 0x0101, type: 1, count: 1, value: "3648")]
     @State var newProperty: String = ""
-    
-    
-    func changeName() {
-        print(self.newProperty)
-    }
     
     var body: some View {
         VStack {
             //Navbar
-            HStack {
-                FileList(availableColumns: self.availableColumns,
-                         header: self.header,
-                         files: self.testdata
-                )
+            HSplitView {
+                VStack {
+                    FileList(availableColumns: self.availableColumns,
+                             header: self.header,
+                             files: self.viewModel.fileList
+                    )
+                    Form {
+                        Button(action: {}) {Text("Opne…")}
+                    }.padding(2)
+                }
                 VStack(alignment: .center) {
                     Text("EXIF-data")
-                    List(self.EXIFData) { tag in
+                    List(self.viewModel.exifData) { tag in
                         VStack {
                             HStack {
                                 Text("\(String(exiftags[tag.EXIFid]!))")
@@ -140,27 +135,31 @@ struct ContentView: View {
 //                    .listStyle(SidebarListStyle())
                     Form {
                         Picker(selection: $selectedPropertyIndex, label: Text("Vel eigenskap du vil endre:")) {
-                            ForEach(0..<properties.count) {
-                                Text(self.properties[$0])
+                            ForEach(0..<self.viewModel.exifProperties.count) {
+                                Text(self.viewModel.exifProperties[$0])
                             }
                         }
                     }
                     Form {
-                        if(self.properties[selectedPropertyIndex] == "Namn") {
-                            TextField("Ny(tt) \(self.properties[selectedPropertyIndex])",
+                        if(self.viewModel.exifProperties[selectedPropertyIndex] == "filename") {
+                            TextField("Ny(tt) \(self.viewModel.exifProperties[selectedPropertyIndex])",
                                 text: $newProperty)
-                        } else if (self.properties[selectedPropertyIndex] == "Modifikasjonsdato") {
+                        } else if (self.viewModel.exifProperties[selectedPropertyIndex] == "ModifyDate") {
                             DateOffsetPicker(offset: $newProperty)
 //                            DateOffsetPicker(offset: "")
                         }
-                        Button(action: changeName) {Text("Forhandsvis →")}
+                        Button(action: {
+                            print("ContentView: \(self.newProperty)")
+                            self.viewModel.update(property: self.viewModel.exifProperties[self.selectedPropertyIndex], value: self.newProperty)
+                            
+                        }) {Text("Forhandsvis →")}
                     }
                     .padding(4.0)
                     .listStyle(SidebarListStyle())
                 }//.background(Color(red: 0.925, green: 0.925, blue: 0.925, opacity: 0.6))
                 FileList(availableColumns: self.availableColumns,
                          header: self.header,
-                         files: self.newFileList
+                         files: self.viewModel.newFileList
                 )
             }
             .padding(0.0)

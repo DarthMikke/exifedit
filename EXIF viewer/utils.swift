@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 
 //  TIFF Datatypes
@@ -512,3 +513,10 @@ let exiftags: Dictionary<Int, String> = [
     0xfe57: "Smoothness",
     0xfe58: "MoireFilter"
 ]
+
+// GUI constants
+let fileListRowMinSpacer = CGFloat(5)
+let selectedBackground = Color.init(red: 0.098, green: 0.4, blue: 0.851)
+let selectedForeground = Color.white
+let backgroundColor = Color.clear
+let foregroundColor = Color.black

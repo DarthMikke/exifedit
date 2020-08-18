@@ -18,18 +18,22 @@ class File: Identifiable {
         self.dict = dict
     }
     
-    func changeValue(value: String, to: String) {
-        if (value == "Modifikasjonsdato") {
-            
-        }
+    func changeValue(property: String, value: String) {
+//        self.dict[property] = unwrapProperty(property: property, newValue: value, withData: self.dict)
+        print("File: New value of property \(property): \(value)")
+        print("File: Value rendered as \(unwrapProperty(property: property, newValue: value, withData: self.dict))")
     }
 }
 
 struct FileListRow : View {
-    var file: File
+    /**
+     TODO: The rows update after a click.
+    */
+    @Binding var filelist: Array<File>
+    let index: Int
     @Binding var selectedItems: Set<UUID>
     var isSelected: Bool {
-        selectedItems.contains(file.id)
+        selectedItems.contains(filelist[index].id)
     }
     @Binding var activeColumns: Array<String>
     
@@ -38,37 +42,47 @@ struct FileListRow : View {
     }
     
     func getColumnByNo(index: Int) -> String {
-        guard let ret = self.file.dict[self.activeColumns[index]] else { return "-" }
+        guard let ret = self.filelist[self.index].dict[self.activeColumns[index]] else { return "-" }
         print(index)
         print(self.activeColumns)
         return String(ret)
     }
     
     var body: some View {
-        HStack(alignment: .center) {
-            VStack(alignment: .leading) {
-                Text(self.file.dict["filename"]!)
+        HStack {
+        VStack(alignment: .center) {
+            HStack {
+                Text(self.filelist[self.index].dict["filename"]!)
                     .fontWeight(.bold)
-                Text(self.file.dict["extension"]!)
+                Spacer()
+                Text(self.filelist[self.index].dict["extension"]!)
             }
             
-            ForEach(1..<self.noActiveColumns(), id: \.self) { i in
-                HStack {
-                    Spacer(minLength: 20)
-                    Text(self.getColumnByNo(index: i))
+            HStack {
+                Text(self.getColumnByNo(index: 1))
+                ForEach(2..<self.noActiveColumns(), id: \.self) { i in
+                    HStack {
+                        Spacer(minLength: fileListRowMinSpacer)
+                        Text(self.getColumnByNo(index: i))
+                    }
                 }
             }
         }
-        .background(self.isSelected ? Color.init(red: 0.098, green: 0.4, blue: 0.851) : Color.clear)
+        .padding(5.0)
+        .padding(.leading, 48.0)
+        .background(self.isSelected ? selectedBackground : Color.clear)
         .onTapGesture {
             if(self.isSelected) {
-                self.selectedItems.remove(self.file.id)
+                self.selectedItems.remove(self.filelist[self.index].id)
                 print(self.selectedItems)
             } else {
-                self.selectedItems.insert(self.file.id)
+                self.selectedItems.insert(self.filelist[self.index].id)
                 print(self.selectedItems)
             }
         }
+        .foregroundColor(self.isSelected ? Color.white : Color.black)
+        }
+        .padding(-10.0)
     }
 }
 
