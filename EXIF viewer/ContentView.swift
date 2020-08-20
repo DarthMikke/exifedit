@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 struct ContentView: View {
     var testdata: Array<File> = [
         File(dict: [

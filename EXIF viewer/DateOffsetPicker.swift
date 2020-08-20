@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-
-
 struct DateOffsetPicker: View {
     @State var dayOffset: String = ""
     @State var hourOffset: String = ""

@@ -10,7 +10,6 @@ import Foundation
 let LE = 0
 let BE = 1
 
-
 func readStream(stream: InputStream, count: Int) -> Array<UInt8> {
     var array : Array<UInt8> = []
     let bufferPointer = UnsafeMutablePointer<UInt8>.allocate(capacity: Int(count))
