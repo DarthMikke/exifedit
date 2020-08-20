@@ -26,7 +26,8 @@ let DOUBLE     = 12
 
 let pointers: Set = [STRING, URATIO, UBYTESEQ, RATIO]
 
-let legalExtensions: Set = ["DNG", "JPG", "PNG", "RAF", "RAW"]
+let legalExtensions: Set = ["DNG", "JPG", "PNG", "RAF", "RAW", "CR2",
+                            "dng", "jpg", "png", "raf", "raw", "cr2"]
 
 let exiftags: Dictionary<Int, String> = [
     0x0001: "InteropIndex",
