@@ -5,11 +5,11 @@
 //  Created by Michal Jan Warecki on 21/07/2020.
 //  Copyright © 2020 Michal Jan Warecki. All rights reserved.
 //
+import Foundation
 
 let LE = 0
 let BE = 1
 
-import Foundation
 
 func readStream(stream: InputStream, count: Int) -> Array<UInt8> {
     var array : Array<UInt8> = []
