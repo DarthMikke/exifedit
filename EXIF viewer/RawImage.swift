@@ -90,7 +90,7 @@ class RawImage {
         return 0
     }
     
-    // @Todo: Support EXIF formats (U)Ratio, (U)Byteseq, Single and Double
+    // TODO: Support EXIF formats (U)Ratio, (U)Byteseq, Single and Double
     
     init(filepath: String) {
         self.filepath = filepath
@@ -105,7 +105,7 @@ class RawImage {
         
         let fileManager = FileManager.default
         if !fileManager.fileExists(atPath: self.filepath) {
-            print("File \(self.filepath) does not exist")
+            print("RawImage: File \(self.filepath) does not exist")
             return
         }
         guard let stream = InputStream(fileAtPath: filepath) else {
@@ -113,7 +113,7 @@ class RawImage {
           return
         }
         
-        // Find TIFF header and endianness
+        // MARK: Find TIFF header and endianness
         stream.open()
         self.tiffOffset = 0
         let chunkSize = 1024*32
@@ -142,16 +142,16 @@ class RawImage {
         print("TIFF header starts at byte #\(self.tiffOffset)")
         print("Endianness: \(endianness_string)")
         
-        // Load bytes to array
+        // MARK: Load bytes to array
         self.array.append(contentsOf: readStream(stream: stream, count: chunkSize))
         stream.close()
         print("Loaded \(self.array.count) bytes to array.")
 
-        //  Find IFD0 offset
+        // MARK: Find IFD0 offset
         self.ifd0Offset = Int(self.toUInt16(array: self.array[self.tiffOffset+4...self.tiffOffset+7]))
         print("IFD0 offset: \(self.ifd0Offset)")
         
-        // Search for tags
+        // MARK: Search for tags
         self.tagCount = Int(self.toUInt16(array: self.array[self.ifd0Offset...self.ifd0Offset+1]))
         print("\(self.tagCount) items")
         var i = self.tiffOffset + self.ifd0Offset + 2
@@ -165,7 +165,7 @@ class RawImage {
             j += 1
             i += 12
             if (pointers.contains(Int(type))) {
-                // Go to pointer
+                /// #Go to pointer
                 let value = self.array[Int(value)...Int(value+count-1)]
                 if (Int(type) == STRING) {
                     var newvalue: String
