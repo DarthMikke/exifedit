@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 //  TIFF Datatypes
+// TODO: Bør vera eit enum
 let UBYTE: Int = 1        // 8 bits
 let STRING: Int      = 2
 let USHORT    = 3        // 16 bits

@@ -15,19 +15,23 @@ struct ExifDetailsView: View {
     
     var body: some View {
         VStack(alignment: .center) {
+            // MARK: Oversikt over EXIF-setlar
             Text("EXIF-data")
-            List(self.viewModel.exifData) { tag in
-                VStack {
-                    HStack {
-                        Text("\(String(exiftags[tag.EXIFid]!))")
-                        Spacer()
-                        Text("\(tag.value)")
+            List {
+                ForEach(self.viewModel.exifData) { tag in
+                    VStack {
+                        HStack {
+                            Text("\(String(exiftags[tag.EXIFid]!))")
+                            Spacer()
+                            Text("\(tag.value)")
+                        }
+                        Divider().padding(.top, -8)
                     }
-                    Divider().padding(.top, -8)
+                    .padding(.bottom, -16.0)
                 }
-                .padding(.bottom, -16.0)
             }
-            //                    .listStyle(SidebarListStyle())
+            
+            // MARK: Redigeringsvindauge
             Form {
                 Picker(selection: $selectedPropertyIndex, label: Text("Vel eigenskap du vil endre:")) {
                     ForEach(0..<self.viewModel.exifProperties.count, id: \.self) {

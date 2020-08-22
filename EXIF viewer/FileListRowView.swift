@@ -9,10 +9,11 @@
 import Foundation
 import SwiftUI
 
-struct FileListRow : View {
+struct FileListRow : View, Identifiable {
     /**
      TODO: The rows update after a click.
     */
+    var id = UUID()
     @Binding var filelist: Array<File>
     let index: Int
     @Binding var selectedItems: Set<UUID>
@@ -20,6 +21,7 @@ struct FileListRow : View {
         selectedItems.contains(filelist[index].id)
     }
     @Binding var activeColumns: Array<String>
+    @EnvironmentObject var datastore: ContentViewModel
     
     func noActiveColumns() -> Int {
         return self.activeColumns.count
@@ -58,10 +60,12 @@ struct FileListRow : View {
         .onTapGesture {
             if(self.isSelected) {
                 self.selectedItems.remove(self.filelist[self.index].id)
-                print(self.selectedItems)
+                print("Selected items: \(self.selectedItems)")
+                self.datastore.getExif()
             } else {
                 self.selectedItems.insert(self.filelist[self.index].id)
-                print(self.selectedItems)
+                print("Selected items: \(self.selectedItems)")
+                self.datastore.getExif()
             }
         }
         .foregroundColor(self.isSelected ? Color.white : Color.black)

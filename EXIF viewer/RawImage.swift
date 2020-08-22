@@ -36,7 +36,7 @@ class RawImage {
     var ifd0Offset: Int
     
     var tagCount: Int
-    var EXIFTags: Dictionary<Int, Any>
+    var exifTags: Array<EXIFTag>
     
     func toUInt16(array : ArraySlice<UInt8>) -> UInt16 {
         if (self.endianness == LE) {
@@ -101,7 +101,7 @@ class RawImage {
         self.ifd0Offset = -1
         
         self.tagCount = -1
-        self.EXIFTags = [:]
+        self.exifTags = []
         
         let fileManager = FileManager.default
         if !fileManager.fileExists(atPath: self.filepath) {
@@ -172,21 +172,23 @@ class RawImage {
             let type: Int = Int(toUInt16(array: self.array[i+2...i+3]))
             let count: UInt32 = toUInt32(array: self.array[i+4...i+7])
             let value: UInt32 = toUInt32(array: self.array[i+8...i+11])
-            // print("\(tag) \(type) \(count) \(value)")
+            print("\(tag) \(type) \(count) \(value)")
             j += 1
             i += 12
-            if (pointers.contains(Int(type))) {
-                /// #Go to pointer
-                let value = self.array[Int(value)...Int(value+count-1)]
-                if (Int(type) == STRING) {
-                    var newvalue: String
-                    newvalue = String(bytes: value, encoding: .ascii) ?? "Wrong value"
-                    EXIFTags[tag] = newvalue
+            if (value < bytes && count < bytes) {
+                if (pointers.contains(Int(type)) && value + count - 1 < bytes) {
+                    /// #Go to pointer
+                    let value = self.array[Int(value)...Int(value+count-1)]
+                    if (Int(type) == STRING) {
+                        var newvalue: String
+                        newvalue = String(bytes: value, encoding: .ascii) ?? "Wrong value"
+                        exifTags.append(EXIFTag(EXIFid: tag, type: type, count: Int(count), value: String(newvalue)))
+                    } else {
+                        exifTags.append(EXIFTag(EXIFid: tag, type: type, count: Int(count), value: String(toUInt32(array: value))))
+                    }
                 } else {
-                    EXIFTags[tag] = value
+                    exifTags.append(EXIFTag(EXIFid: tag, type: type, count: Int(count), value: String(value)))
                 }
-            } else {
-                EXIFTags[tag] = value
             }
         }
         while (j < tagCount && i + 11 < bytes)

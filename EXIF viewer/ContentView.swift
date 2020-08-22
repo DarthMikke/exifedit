@@ -26,6 +26,7 @@ struct ContentView: View {
                 VStack {
                     FileList(availableColumns: self.availableColumns,
                              header: self.header,
+                             selectKeeper: self.$viewModel.selectedFiles,
                              column: Columns.primary
                             ).environmentObject(self.viewModel)
                     Form {
@@ -36,6 +37,7 @@ struct ContentView: View {
                     .environmentObject(viewModel)
                 FileList(availableColumns: self.availableColumns,
                          header: self.header,
+                         selectKeeper: self.$viewModel.selectedNewFiles,
                          column: Columns.secondary
                 ).environmentObject(self.viewModel)
             }

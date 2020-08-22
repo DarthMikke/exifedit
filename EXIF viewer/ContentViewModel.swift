@@ -10,14 +10,14 @@ import Foundation
 import SwiftUI
 
 class ContentViewModel: ObservableObject {
-    var filepath: String
-    @Published var filelist: Array<File>
-    @Published var newFilelist: Array<File>
-    @Published var exifProperties: Array<String>
-    @Published var exifData: Array<EXIFTag>
-    @Published var selectedFiles: Set<UUID>
-    @Published var selectedNewFiles: Set<UUID>
-    var fileManager: FileManager
+                var filepath:       String
+    @Published  var filelist:       Array<File>
+    @Published  var newFilelist:    Array<File>
+    @Published  var exifProperties: Array<String>
+    @Published  var exifData:       Array<EXIFTag>
+    @Published  var selectedFiles:  Set<UUID>
+    @Published  var selectedNewFiles: Set<UUID>
+                var fileManager:    FileManager
     
     init() {
         self.filepath = ""
@@ -67,14 +67,20 @@ class ContentViewModel: ObservableObject {
                             print(url.path)
                             let filename = url.pathComponents[url.pathComponents.count - 1].components(separatedBy: ".")[0]
                             let rawimage = RawImage(filepath: url.path)
+                            print("ContentViewModel: \(rawimage.tagCount) tags")
                             if rawimage.tagCount != -1 {
                                 print(filename, url.pathExtension)
                                 var dict: Dictionary<String, String>
+                                var array: Array<EXIFTag> = []
                                 dict = ["filename": filename, "extension": url.pathExtension]
-                                for (key, value) in rawimage.EXIFTags {
-                                    dict[exiftags[key]!] = value as? String ?? "-"
+                                for tag in rawimage.exifTags {
+                                    if exiftags.keys.contains(tag.EXIFid) {
+                                        dict[exiftags[tag.EXIFid]!] = tag.value ?? "-"
+                                        array.append(tag)
+                                    }
                                 }
-                                self.filelist.append(File(dict: dict))
+                                print("ContentViewModel: \(array)")
+                                self.filelist.append(File(dict: dict, exif: array))
                             }
                         }
                     }
@@ -90,6 +96,24 @@ class ContentViewModel: ObservableObject {
     }
     
     func openFile() {}
+    
+    func getExif() -> Array<EXIFTag> {
+        let array: Array<EXIFTag> = []
+        print("ContentViewModel: \(selectedFiles.count) files are selected")
+        if selectedFiles.count == 0 {
+            return array
+        }
+        
+        for file in self.filelist {
+            if (file.id == self.selectedFiles.first) {
+                print ("ContentViewModel: Updating EXIF list to:")
+                self.exifData = file.exif
+                print(file.exif)
+                return file.exif
+            }
+        }
+        return array
+    }
     
     func preview(property: String, value: String) {
         var i = 0

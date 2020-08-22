@@ -12,11 +12,11 @@ import SwiftUI
 
 
 struct FileList: View {
-    var availableColumns:   Dictionary<String, String>
-    @State var header:      Array<String>
-    @EnvironmentObject var datastore: ContentViewModel
-    @State var selectKeeper = Set<UUID>()
-    var column:             Columns
+                        var availableColumns:   Dictionary<String, String>
+    @State              var header:             Array<String>
+    @EnvironmentObject  var datastore:          ContentViewModel
+    @Binding            var selectKeeper:       Set<UUID>
+                        var column:             Columns
     // var visibleHeaders: Set<String> = Set(header)
     
     func update() {
@@ -81,11 +81,12 @@ struct FileList: View {
             // MARK: The filelist itself
             List {
                 //    Image("Image.png")
-                if self.column == .primary{
+                if self.column == .primary {
                     if self.datastore.filelist.count > 0 {
                         ForEach(0 ..< self.datastore.filelist.count) { i in
                             VStack {
                                 FileListRow(filelist: self.$datastore.filelist, index: i, selectedItems: self.$selectKeeper, activeColumns: self.$header)
+                                    .environmentObject(self.datastore)
                                 //.contextMenu {
                                 //     Text("Vis i Finder")
                                 //}
@@ -102,6 +103,7 @@ struct FileList: View {
                         ForEach(0 ..< self.datastore.newFilelist.count) { i in
                             VStack {
                                 FileListRow(filelist: self.$datastore.newFilelist, index: i, selectedItems: self.$selectKeeper, activeColumns: self.$header)
+                                .environmentObject(self.datastore)
                                 //.contextMenu {
                                 //     Text("Vis i Finder")
                                 //}

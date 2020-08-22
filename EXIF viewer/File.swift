@@ -19,12 +19,12 @@ struct EXIFTag: Identifiable {
 class File: Identifiable {
     let id: UUID
     @Published var dict : Dictionary<String, String>
-    @Published var exif : Dictionary<Int, EXIFTag>
+    @Published var exif : Array<EXIFTag>
     
-    init (dict: Dictionary<String, String>) {
+    init (dict: Dictionary<String, String>, exif: Array<EXIFTag>) {
         self.id = UUID()
         self.dict = dict
-        self.exif = [:]
+        self.exif = exif
     }
     
     func changeValue(property: String, value: String) {
