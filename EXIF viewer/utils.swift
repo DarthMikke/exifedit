@@ -9,7 +9,6 @@
 import Foundation
 import SwiftUI
 
-
 //  TIFF Datatypes
 let UBYTE: Int = 1        // 8 bits
 let STRING: Int      = 2
@@ -521,3 +520,8 @@ let selectedBackground = Color.init(red: 0.098, green: 0.4, blue: 0.851)
 let selectedForeground = Color.white
 let backgroundColor = Color.clear
 let foregroundColor = Color.black
+
+enum Columns{
+    case primary
+    case secondary
+}
