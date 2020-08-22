@@ -109,7 +109,7 @@ class RawImage {
             return
         }
         guard let stream = InputStream(fileAtPath: filepath) else {
-          print("ERROR OPENING FILE")
+          print("RawImage: ERROR OPENING FILE")
           return
         }
         
@@ -139,21 +139,32 @@ class RawImage {
             
         } while (tiffFound == false)
         
-        print("TIFF header starts at byte #\(self.tiffOffset)")
-        print("Endianness: \(endianness_string)")
+        print("RawImage: TIFF header starts at byte #\(self.tiffOffset)")
+        print("RawImage: Endianness: \(endianness_string)")
         
         // MARK: Load bytes to array
         self.array.append(contentsOf: readStream(stream: stream, count: chunkSize))
         stream.close()
-        print("Loaded \(self.array.count) bytes to array.")
+        let bytes = self.array.count
+        print("RawImage: Loaded \(bytes) bytes to array.")
 
         // MARK: Find IFD0 offset
-        self.ifd0Offset = Int(self.toUInt16(array: self.array[self.tiffOffset+4...self.tiffOffset+7]))
-        print("IFD0 offset: \(self.ifd0Offset)")
+        if self.tiffOffset + 7 < bytes {
+            self.ifd0Offset = Int(self.toUInt16(array: self.array[self.tiffOffset+4...self.tiffOffset+7]))
+            print("RawImage: IFD0 offset: \(self.ifd0Offset)")
+        } else {
+            print("RawImage: TIFF offset out of range")
+            return
+        }
         
         // MARK: Search for tags
-        self.tagCount = Int(self.toUInt16(array: self.array[self.ifd0Offset...self.ifd0Offset+1]))
-        print("\(self.tagCount) items")
+        if self.ifd0Offset + 1 < bytes{
+            self.tagCount = Int(self.toUInt16(array: self.array[self.ifd0Offset...self.ifd0Offset+1]))
+            print("RawImage: \(self.tagCount) EXIF tags")
+        } else {
+            print("RawImage: IFD0 offset out of range")
+            return
+        }
         var i = self.tiffOffset + self.ifd0Offset + 2
         var j = 0
         repeat {
@@ -178,7 +189,7 @@ class RawImage {
                 EXIFTags[tag] = value
             }
         }
-        while (j < tagCount)
+        while (j < tagCount && i + 11 < bytes)
     }
     
     func rename(newfilename: String) -> Int {
