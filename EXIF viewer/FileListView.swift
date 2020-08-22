@@ -12,10 +12,11 @@ import SwiftUI
 
 
 struct FileList: View {
-    var availableColumns: Dictionary<String, String>
-    @State var header: Array<String>
-    @State var files:  Array<File>
+    var availableColumns:   Dictionary<String, String>
+    @State var header:      Array<String>
+    @EnvironmentObject var datastore: ContentViewModel
     @State var selectKeeper = Set<UUID>()
+    var column:             Columns
     // var visibleHeaders: Set<String> = Set(header)
     
     func update() {
@@ -25,8 +26,7 @@ struct FileList: View {
     var body : some View {
         VStack {
             Text("Filer:").font(.subheadline).padding(.bottom, 2.0)
-            /** #Header
-             */
+            // MARK: Header
             HStack() {
 //                Text(String(self.availableColumns["filename"]!))
 //                    .multilineTextAlignment(.leading).padding(0.0)
@@ -78,37 +78,60 @@ struct FileList: View {
             }
             .padding(.leading, 48.0)
             
-            /** #The filelist itself
-            */
-            List(0 ..< self.files.count) { i in
+            // MARK: The filelist itself
+            List {
                 //    Image("Image.png")
-                VStack {
-                    FileListRow(filelist: self.$files, index: i, selectedItems: self.$selectKeeper, activeColumns: self.$header)
-//                    .contextMenu {
-//                        Text("Vis i Finder")
-//                }
-                Divider()
+                if self.column == .primary{
+                    if self.datastore.filelist.count > 0 {
+                        ForEach(0 ..< self.datastore.filelist.count) { i in
+                            VStack {
+                                FileListRow(filelist: self.$datastore.filelist, index: i, selectedItems: self.$selectKeeper, activeColumns: self.$header)
+                                //.contextMenu {
+                                //     Text("Vis i Finder")
+                                //}
+                                Divider()
+                            }
+                        }
+                    } else {
+                        Text("Opne ein folder først")
+                    }
+                    
                 }
+                else if (self.column == .secondary){
+                    if self.datastore.newFilelist.count > 0 {
+                        ForEach(0 ..< self.datastore.newFilelist.count) { i in
+                            VStack {
+                                FileListRow(filelist: self.$datastore.newFilelist, index: i, selectedItems: self.$selectKeeper, activeColumns: self.$header)
+                                //.contextMenu {
+                                //     Text("Vis i Finder")
+                                //}
+                                Divider()
+                            }
+                        }
+                    } else {
+                        Text("Opne ein folder først")
+                    }
+                }
+                //            .padding(-8.0)
+                //            .listStyle(SidebarListStyle())
             }
-//            .padding(-8.0)
-//            .listStyle(SidebarListStyle())
         }
     }
 }
 
-struct FileListView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            FileList(
-                availableColumns: ["filename": "Namn",
-                                   "extension": "Format",
-                                   "ModifyDate": "Dato", "ModelName": "Modell"],
-                header: ["filename", "date", "ModelName"],
-                files: [
-                    File(dict: ["filename": "File 0", "extension": "CR2", "ModifyDate": "2020:07:12 12:34:56", "ModelName": "Canon EOS 6D"]),
-                    File(dict: ["filename": "File 1", "extension": "DNG", "ModifyDate": "2014:08:02 12:34:56", "ModelName": "Hasselblad"])
-                ]
-            )
-        }
-    }
-}
+//struct FileListView_Previews: PreviewProvider {
+//    static var previews: some View {
+////        Group {
+////            FileList(
+////                availableColumns: ["filename": "Namn",
+////                                   "extension": "Format",
+////                                   "ModifyDate": "Dato", "ModelName": "Modell"],
+////                header: ["filename", "date", "ModelName"],
+////                files: [
+////                    File(dict: ["filename": "File 0", "extension": "CR2", "ModifyDate": "2020:07:12 12:34:56", "ModelName": "Canon EOS 6D"]),
+////                    File(dict: ["filename": "File 1", "extension": "DNG", "ModifyDate": "2014:08:02 12:34:56", "ModelName": "Hasselblad"])
+////                ]
+////            )
+////        }
+//    }
+//}
