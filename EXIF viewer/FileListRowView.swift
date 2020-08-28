@@ -11,37 +11,52 @@ import SwiftUI
 
 struct FileListRow : View, Identifiable {
     /**
-     TODO: The rows update after a click.
+     TODO: The rows update immediately after a click.
     */
-    var id = UUID()
-    @Binding var filelist: Array<File>
-    let index: Int
-    @Binding var selectedItems: Set<UUID>
-    var isSelected: Bool {
-        selectedItems.contains(filelist[index].id)
+                        var id            = UUID()
+                        var file:           File
+//    let index: Int
+                        var column:         Columns
+//    @Binding var selectedItems: Set<UUID>
+                        var isSelected:     Bool {
+        if (self.column == .primary) {
+//            print("FileListRowView: Looking for \(self.file.id) in \(self.datastore.selectedFiles)") // DEBUG
+            return self.datastore.selectedFiles.contains(self.file.id)
+        } else if (self.column == .secondary) {
+            return self.datastore.selectedNewFiles.contains(self.file.id)
+        }
+        return false
     }
-    @Binding var activeColumns: Array<String>
-    @EnvironmentObject var datastore: ContentViewModel
+    @Binding            var activeColumns:  Array<String>
+    @EnvironmentObject  var datastore:      ContentViewModel
     
     func noActiveColumns() -> Int {
         return self.activeColumns.count
     }
     
     func getColumnByNo(index: Int) -> String {
-        guard let ret = self.filelist[self.index].dict[self.activeColumns[index]] else { return "-" }
-        print(index)
-        print(self.activeColumns)
+        let ret = getProperty(self.activeColumns[index])
         return String(ret)
+    }
+    
+    func getProperty(_ index: String) -> String {
+        // TODO: Returnerer eigenskap eller "–"
+        if (self.file.index < self.datastore.filelist.count) {
+            if (self.file.dict.keys.contains(index)) {
+                return self.file.dict[index] ?? "??"
+            }
+        }
+        return "–"
     }
     
     var body: some View {
         HStack {
         VStack(alignment: .center) {
             HStack {
-                Text(self.filelist[self.index].dict["filename"]!)
+                Text(getProperty("filename"))
                     .fontWeight(.bold)
                 Spacer()
-                Text(self.filelist[self.index].dict["extension"]!)
+                Text(getProperty("filename"))
             }
             
             HStack {
@@ -59,13 +74,23 @@ struct FileListRow : View, Identifiable {
         .background(self.isSelected ? selectedBackground : Color.clear)
         .onTapGesture {
             if(self.isSelected) {
-                self.selectedItems.remove(self.filelist[self.index].id)
-                print("Selected items: \(self.selectedItems)")
-                self.datastore.getExif()
+                if (self.column == .primary) {
+                    self.datastore.selectedFiles.remove(self.file.id)
+                    print("\(#file) \(#line): Selected items: \(self.datastore.selectedFiles)")
+                    self.datastore.getExif()
+                } else {
+                    self.datastore.selectedNewFiles.remove(self.file.id)
+                    print("\(#file) \(#line): Selected items: \(self.datastore.selectedNewFiles)")
+                }
             } else {
-                self.selectedItems.insert(self.filelist[self.index].id)
-                print("Selected items: \(self.selectedItems)")
-                self.datastore.getExif()
+                if (self.column == .primary) {
+                    self.datastore.selectedFiles.insert(self.file.id)
+                    print("\(#file) \(#line): Selected items: \(self.datastore.selectedFiles)")
+                    self.datastore.getExif()
+                } else {
+                    self.datastore.selectedNewFiles.insert(self.file.id)
+                    print("\(#file) \(#line): Selected items: \(self.datastore.selectedNewFiles)")
+                }
             }
         }
         .foregroundColor(self.isSelected ? Color.white : Color.black)
@@ -73,15 +98,3 @@ struct FileListRow : View, Identifiable {
         .padding(-10.0)
     }
 }
-
-//struct FileListRow_Previews: PreviewProvider {
-//    @State var selectKeeper: Set<UUID> = []
-//    static var previews: some View {
-//        Group {
-//            FileListRow(file: File(array: ["File 1", "DNG", "2014:08:02 12:34:56 UTC+0", "Hasselblad"]), selectedItems: Set<UUID>()
-//            ).frame(width: 250)
-//            FileListRow(file: File(array: ["test", "CR2"]), selectedItems: Set<UUID>()
-//            )
-//        }
-//    }
-//}

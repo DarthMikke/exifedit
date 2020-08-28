@@ -17,6 +17,8 @@ class ContentViewModel: ObservableObject {
     @Published  var exifData:       Array<EXIFTag>
     @Published  var selectedFiles:  Set<UUID>
     @Published  var selectedNewFiles: Set<UUID>
+    @Published  var range:          Array<Int>
+    @Published  var newRange:       Array<Int>
                 var fileManager:    FileManager
     
     init() {
@@ -26,6 +28,8 @@ class ContentViewModel: ObservableObject {
         
         self.selectedFiles = []
         self.selectedNewFiles = []
+        self.range = []
+        self.newRange = []
         
         self.exifProperties = ["filename",
                                "Model",
@@ -57,6 +61,11 @@ class ContentViewModel: ObservableObject {
         openPanel.begin { (result) in
             if result == .OK {
                 // Directory opened
+                // Clear selection
+                self.selectedFiles = []
+                self.selectedNewFiles = []
+                
+                // Clear filelist
                 self.filelist = []
                 let fileManager = FileManager.default
                 self.filepath = openPanel.url!.absoluteString
@@ -64,12 +73,12 @@ class ContentViewModel: ObservableObject {
                     fileURLs = try fileManager.contentsOfDirectory(at: openPanel.url!, includingPropertiesForKeys: nil)
                     for url in fileURLs {
                         if(legalExtensions.contains(url.pathExtension)) {
-                            print(url.path)
+                            print("\(#file) \(#line): \(url.path)")
                             let filename = url.pathComponents[url.pathComponents.count - 1].components(separatedBy: ".")[0]
                             let rawimage = RawImage(filepath: url.path)
-                            print("ContentViewModel: \(rawimage.tagCount) tags")
+                            print("\(#file) \(#line): \(rawimage.tagCount) tags")
                             if rawimage.tagCount != -1 {
-                                print(filename, url.pathExtension)
+                                print("\(#file) \(#line):", filename, url.pathExtension)
                                 var dict: Dictionary<String, String>
                                 var array: Array<EXIFTag> = []
                                 dict = ["filename": filename, "extension": url.pathExtension]
@@ -79,14 +88,14 @@ class ContentViewModel: ObservableObject {
                                         array.append(tag)
                                     }
                                 }
-                                print("ContentViewModel: \(array)")
-                                self.filelist.append(File(dict: dict, exif: array))
+                                print("\(#file) \(#line): \(array)")
+                                self.filelist.append(File(dict: dict, exif: array, index: self.filelist.count))
                             }
                         }
                     }
                     self.newFilelist = self.filelist
                 } catch {
-                    print("Error while enumerating files \(openPanel.url!): \(error.localizedDescription)")
+                    print("\(#file) \(#line): Error while enumerating files \(openPanel.url!): \(error.localizedDescription)")
                 }
             } else {
                 // User canceled the dialog
@@ -99,16 +108,16 @@ class ContentViewModel: ObservableObject {
     
     func getExif() -> Array<EXIFTag> {
         let array: Array<EXIFTag> = []
-        print("ContentViewModel: \(selectedFiles.count) files are selected")
-        if selectedFiles.count == 0 {
+        print("\(#file) \(#line): \(self.selectedFiles.count) files are selected")
+        if self.selectedFiles.count == 0 {
             return array
         }
         
         for file in self.filelist {
             if (file.id == self.selectedFiles.first) {
-                print ("ContentViewModel: Updating EXIF list to:")
+                print ("\(#file) \(#line): Updating EXIF list to:")
                 self.exifData = file.exif
-                print(file.exif)
+                print("\(#file) \(#line): \(file.exif)")
                 return file.exif
             }
         }
@@ -118,7 +127,7 @@ class ContentViewModel: ObservableObject {
     func preview(property: String, value: String) {
         var i = 0
         repeat {
-            print("ContentViewModel: New value of property \(property): '\(value)' for file \(self.newFilelist[i].dict["filename"]!)")
+            print("\(#file) \(#line): New value of property \(property): '\(value)' for file \(self.newFilelist[i].dict["filename"]!)")
             /// TODO: Error handling – vis beskjed om "property" har feil verdi
             /// Den kommenterte linja funkar ikkje
 //            self.newFileList[i].changeValue(property: property, value: value)

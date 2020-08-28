@@ -19,17 +19,11 @@ struct FileList: View {
                         var column:             Columns
     // var visibleHeaders: Set<String> = Set(header)
     
-    func update() {
-        
-    }
-    
     var body : some View {
         VStack {
             Text("Filer:").font(.subheadline).padding(.bottom, 2.0)
             // MARK: Header
             HStack() {
-//                Text(String(self.availableColumns["filename"]!))
-//                    .multilineTextAlignment(.leading).padding(0.0)
                 Text(
                     String(
                         self.availableColumns[
@@ -56,7 +50,7 @@ struct FileList: View {
             }.contextMenu {
                 ForEach(self.availableColumns.sorted(by: >), id: \.key) { keyword, readable in
                         Button (action: {
-                            print("\(keyword)")
+                            print("\(#file) \(#line): \(keyword)")
                         if(self.header.contains(keyword)) {
                             self.header.remove(at: self.header.firstIndex(of: keyword)!)
                         }
@@ -65,6 +59,7 @@ struct FileList: View {
                         }
                     }) {
                         Text("\(self.availableColumns[keyword]!)")
+// TODO: Kontekst-meny
 //                        Text("\(i)")
 //                        Text(
 //                            String(
@@ -83,9 +78,10 @@ struct FileList: View {
                 //    Image("Image.png")
                 if self.column == .primary {
                     if self.datastore.filelist.count > 0 {
-                        ForEach(0 ..< self.datastore.filelist.count) { i in
+                        ForEach(self.datastore.filelist, id: \.id) { file in
+                            // 0 ..< self.datastore.filelist.count
                             VStack {
-                                FileListRow(filelist: self.$datastore.filelist, index: i, selectedItems: self.$selectKeeper, activeColumns: self.$header)
+                                FileListRow(file: file, column: self.column, activeColumns: self.$header)
                                     .environmentObject(self.datastore)
                                 //.contextMenu {
                                 //     Text("Vis i Finder")
@@ -100,9 +96,10 @@ struct FileList: View {
                 }
                 else if (self.column == .secondary){
                     if self.datastore.newFilelist.count > 0 {
-                        ForEach(0 ..< self.datastore.newFilelist.count) { i in
+                        ForEach(self.datastore.filelist, id: \.id) { file in
+                            // 0 ..< self.datastore.filelist.count
                             VStack {
-                                FileListRow(filelist: self.$datastore.newFilelist, index: i, selectedItems: self.$selectKeeper, activeColumns: self.$header)
+                                FileListRow(file: file, column: self.column, activeColumns: self.$header)
                                 .environmentObject(self.datastore)
                                 //.contextMenu {
                                 //     Text("Vis i Finder")
@@ -114,26 +111,7 @@ struct FileList: View {
                         Text("Opne ein folder først")
                     }
                 }
-                //            .padding(-8.0)
-                //            .listStyle(SidebarListStyle())
             }
         }
     }
 }
-
-//struct FileListView_Previews: PreviewProvider {
-//    static var previews: some View {
-////        Group {
-////            FileList(
-////                availableColumns: ["filename": "Namn",
-////                                   "extension": "Format",
-////                                   "ModifyDate": "Dato", "ModelName": "Modell"],
-////                header: ["filename", "date", "ModelName"],
-////                files: [
-////                    File(dict: ["filename": "File 0", "extension": "CR2", "ModifyDate": "2020:07:12 12:34:56", "ModelName": "Canon EOS 6D"]),
-////                    File(dict: ["filename": "File 1", "extension": "DNG", "ModifyDate": "2014:08:02 12:34:56", "ModelName": "Hasselblad"])
-////                ]
-////            )
-////        }
-//    }
-//}
