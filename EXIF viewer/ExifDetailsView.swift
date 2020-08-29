@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ExifDetailsView: View {
-    @EnvironmentObject var viewModel: ContentViewModel
+    @EnvironmentObject var datastore: ContentViewModel
     @Binding var selectedPropertyIndex: Int
     @Binding var newProperty: String
     
@@ -18,12 +18,12 @@ struct ExifDetailsView: View {
             // MARK: Oversikt over EXIF-setlar
             Text("EXIF-data")
             List {
-                ForEach(self.viewModel.exifData) { tag in
+                ForEach(self.datastore.exifProperties, id: \.self) { key in
                     VStack {
                         HStack {
-                            Text("\(String(exiftags[tag.EXIFid]!))")
+                            Text("\(String(key))")
                             Spacer()
-                            Text("\(tag.value)")
+                            Text("\(self.datastore.exifDict[key] ?? "–")")
                         }
                         Divider().padding(.top, -8)
                     }
@@ -34,22 +34,22 @@ struct ExifDetailsView: View {
             // MARK: Redigeringsvindauge
             Form {
                 Picker(selection: $selectedPropertyIndex, label: Text("Vel eigenskap du vil endre:")) {
-                    ForEach(0..<self.viewModel.exifProperties.count, id: \.self) {
-                        Text(self.viewModel.exifProperties[$0])
+                    ForEach(0..<self.datastore.exifProperties.count, id: \.self) {
+                        Text(self.datastore.exifProperties[$0])
                     }
                 }
             }
             Form {
-                if(self.viewModel.exifProperties[selectedPropertyIndex] == "filename") {
-                    TextField("Ny(tt) \(self.viewModel.exifProperties[selectedPropertyIndex])",
+                if(self.datastore.exifProperties[selectedPropertyIndex] == "filename") {
+                    TextField("Ny(tt) \(self.datastore.exifProperties[selectedPropertyIndex])",
                         text: $newProperty)
-                } else if (self.viewModel.exifProperties[selectedPropertyIndex] == "ModifyDate") {
+                } else if (self.datastore.exifProperties[selectedPropertyIndex] == "ModifyDate") {
                     DateOffsetPicker(offset: $newProperty)
                     //                            DateOffsetPicker(offset: "")
                 }
                 Button(action: {
                     print("ContentView: \(self.newProperty)")
-                    self.viewModel.preview(property: self.viewModel.exifProperties[self.selectedPropertyIndex], value: self.newProperty)
+                    self.datastore.preview(property: self.datastore.exifProperties[self.selectedPropertyIndex], value: self.newProperty)
                     
                 }) {Text("Forhandsvis →")}
             }

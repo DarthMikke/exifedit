@@ -14,7 +14,8 @@ class ContentViewModel: ObservableObject {
     @Published  var filelist:       Array<File>
     @Published  var newFilelist:    Array<File>
     @Published  var exifProperties: Array<String>
-    @Published  var exifData:       Array<EXIFTag>
+    @Published  var exifDict:       Dictionary<String, String>
+//    @Published  var exifKeys:       Array<String> // TODO: Skal fjernast etter kvart
     @Published  var selectedFiles:  Set<UUID>
     @Published  var selectedNewFiles: Set<UUID>
     @Published  var range:          Array<Int>
@@ -33,20 +34,13 @@ class ContentViewModel: ObservableObject {
         
         self.exifProperties = ["filename",
                                "Model",
-                               "ModifiedDate",
+                               "ModifyDate",
+                               "ImageWidth",
+                               "ImageHeight",
                                "Author"]
-        self.exifData = [EXIFTag(EXIFid: 0x0110,
-                                 type: 8,
-                                 count: 20,
-                                 value: "Canon EOS 6D"),
-                         EXIFTag(EXIFid: 0x0100,
-                                 type: 1,
-                                 count: 1,
-                                 value: "5472"),
-                         EXIFTag(EXIFid: 0x0101,
-                                 type: 1,
-                                 count: 1,
-                                 value: "3648")]
+        self.exifDict = [exiftags[0x0110] ?? "–": "Canon EOS 6D",
+                         exiftags[0x0100] ?? "–": "5472",
+                         exiftags[0x0101] ?? "–": "3648"]
 
         self.fileManager = FileManager.default
     }
@@ -106,22 +100,25 @@ class ContentViewModel: ObservableObject {
     
     func openFile() {}
     
-    func getExif() -> Array<EXIFTag> {
-        let array: Array<EXIFTag> = []
+    func getExif() -> Void {
         print("\(#file) \(#line): \(self.selectedFiles.count) files are selected")
         if self.selectedFiles.count == 0 {
-            return array
+            return
         }
         
         for file in self.filelist {
             if (file.id == self.selectedFiles.first) {
                 print ("\(#file) \(#line): Updating EXIF list to:")
-                self.exifData = file.exif
                 print("\(#file) \(#line): \(file.exif)")
-                return file.exif
+                self.exifProperties = ["filename"]
+                for tag in file.exif {
+                    self.exifProperties.append(exiftags[tag.EXIFid] ?? "–")
+                    self.exifDict[exiftags[tag.EXIFid] ?? "–"] = tag.value
+                }
+                return
             }
         }
-        return array
+        return
     }
     
     func preview(property: String, value: String) {
