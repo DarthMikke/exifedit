@@ -45,29 +45,40 @@ class ContentViewModel: ObservableObject {
     }
     
     fileprivate func addFile(url: URL) {
-        if(legalExtensions.contains(url.pathExtension)) {
-            print("\(#file) \(#line): \(url.path) is not an allowed file extension")
+        if !(legalExtensions.contains(url.pathExtension)) {
+            print("\(#file) \(#line): Extension \(url.pathExtension) is not allowed (\(url.path)).")
             return
         }
         print("\(#file) \(#line): \(url.path)")
+        
+        var dict: Dictionary<String, String>
+        let array: Array<EXIFTag> = []
         let filename = url.pathComponents[url.pathComponents.count - 1].components(separatedBy: ".")[0]
-        let rawimage = RawImage(filepath: url.path)
-        print("\(#file) \(#line): \(rawimage.tagCount) tags")
-        if rawimage.tagCount < 0 {
-            // -1 er startverdien
+        let exifpath = Bundle.main.path(forResource: "exiftool", ofType: "")
+        dict = ["filename": filename, "extension": url.pathExtension]
+        let pattern = "^-([aA-zZ|0-9]+)=(.*)$"
+        
+        let output = runCommand(cmd: exifpath!, args: url.path, "-args").output
+        for line in output {
+            /// TODO: Her kan ei linje vera ein feil kasta av exiftool. Feilane må hentast ut og informerast om.
+            let regex = Regex(pattern: pattern)
+            let match = regex.match(in: line)
+            if match.count > 0 {
+                dict[match[0]] = match[1]
+            }
+        }
+        print("\(#file) \(#line):", filename, url.pathExtension)
+        print("\(#file) \(#line): \(dict.keys.count) tags")
+        if dict.keys.count == 0 {
             return
         }
         
-        print("\(#file) \(#line):", filename, url.pathExtension)
-        var dict: Dictionary<String, String>
-        var array: Array<EXIFTag> = []
-        dict = ["filename": filename, "extension": url.pathExtension]
-        for tag in rawimage.exifTags {
-            if exiftags.keys.contains(tag.EXIFid) {
-                dict[exiftags[tag.EXIFid]!] = tag.value
-                array.append(tag)
-            }
-        }
+//        for tag in rawimage.exifTags {
+//            if exiftags.keys.contains(tag.EXIFid) {
+//                dict[exiftags[tag.EXIFid]!] = tag.value
+//                array.append(tag)
+//            }
+//        }
         print("\(#file) \(#line): \(array)")
         self.filelist.append(File(dict: dict, exif: array, index: self.filelist.count))
     }
@@ -124,9 +135,9 @@ class ContentViewModel: ObservableObject {
                 print ("\(#file) \(#line): Updating EXIF list to:")
                 print("\(#file) \(#line): \(file.exif)")
                 self.exifProperties = ["filename"]
-                for tag in file.exif {
-                    self.exifProperties.append(exiftags[tag.EXIFid] ?? "–")
-                    self.exifDict[exiftags[tag.EXIFid] ?? "–"] = tag.value
+                for (exifTag, value) in file.dict {
+                    self.exifProperties.append(exifTag)
+                    self.exifDict[exifTag] = value
                 }
                 return
             }
