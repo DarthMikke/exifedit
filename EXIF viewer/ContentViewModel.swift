@@ -15,7 +15,6 @@ class ContentViewModel: ObservableObject {
     @Published  var newFilelist:    Array<File>
     @Published  var exifProperties: Array<String>
     @Published  var exifDict:       Dictionary<String, String>
-//    @Published  var exifKeys:       Array<String> // TODO: Skal fjernast etter kvart
     @Published  var selectedFiles:  Set<UUID>
     @Published  var selectedNewFiles: Set<UUID>
     @Published  var range:          Array<Int>
@@ -45,9 +44,53 @@ class ContentViewModel: ObservableObject {
         self.fileManager = FileManager.default
     }
     
+    fileprivate func addFile(_ rawimage: RawImage, _ filename: String, _ url: URL) {
+        if rawimage.tagCount != -1 {
+            print("\(#file) \(#line):", filename, url.pathExtension)
+            var dict: Dictionary<String, String>
+            var array: Array<EXIFTag> = []
+            dict = ["filename": filename, "extension": url.pathExtension]
+            for tag in rawimage.exifTags {
+                if exiftags.keys.contains(tag.EXIFid) {
+                    dict[exiftags[tag.EXIFid]!] = tag.value
+                    array.append(tag)
+                }
+            }
+            print("\(#file) \(#line): \(array)")
+            self.filelist.append(File(dict: dict, exif: array, index: self.filelist.count))
+        }
+    }
+    
+    fileprivate func loadDirectoryContents(of filepath: String, url: URL) {
+        var fileURLs: Array<URL> = []
+        
+        // Clear selection
+        self.selectedFiles = []
+        self.selectedNewFiles = []
+        
+        // Clear filelist
+        self.filelist = []
+        let fileManager = FileManager.default
+        self.filepath = filepath
+        do {
+            fileURLs = try fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
+            for url in fileURLs {
+                if(legalExtensions.contains(url.pathExtension)) {
+                    print("\(#file) \(#line): \(url.path)")
+                    let filename = url.pathComponents[url.pathComponents.count - 1].components(separatedBy: ".")[0]
+                    let rawimage = RawImage(filepath: url.path)
+                    print("\(#file) \(#line): \(rawimage.tagCount) tags")
+                    self.addFile(rawimage, filename, url)
+                }
+            }
+            self.newFilelist = self.filelist
+        } catch {
+            print("\(#file) \(#line): Error while enumerating files \(url): \(error.localizedDescription)")
+        }
+    }
+    
     func loadDirectory() -> Void {
         let openPanel = NSOpenPanel()
-        var fileURLs: Array<URL> = []
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = false
@@ -55,47 +98,12 @@ class ContentViewModel: ObservableObject {
         openPanel.begin { (result) in
             if result == .OK {
                 // Directory opened
-                // Clear selection
-                self.selectedFiles = []
-                self.selectedNewFiles = []
-                
-                // Clear filelist
-                self.filelist = []
-                let fileManager = FileManager.default
-                self.filepath = openPanel.url!.absoluteString
-                do {
-                    fileURLs = try fileManager.contentsOfDirectory(at: openPanel.url!, includingPropertiesForKeys: nil)
-                    for url in fileURLs {
-                        if(legalExtensions.contains(url.pathExtension)) {
-                            print("\(#file) \(#line): \(url.path)")
-                            let filename = url.pathComponents[url.pathComponents.count - 1].components(separatedBy: ".")[0]
-                            let rawimage = RawImage(filepath: url.path)
-                            print("\(#file) \(#line): \(rawimage.tagCount) tags")
-                            if rawimage.tagCount != -1 {
-                                print("\(#file) \(#line):", filename, url.pathExtension)
-                                var dict: Dictionary<String, String>
-                                var array: Array<EXIFTag> = []
-                                dict = ["filename": filename, "extension": url.pathExtension]
-                                for tag in rawimage.exifTags {
-                                    if exiftags.keys.contains(tag.EXIFid) {
-                                        dict[exiftags[tag.EXIFid]!] = tag.value ?? "-"
-                                        array.append(tag)
-                                    }
-                                }
-                                print("\(#file) \(#line): \(array)")
-                                self.filelist.append(File(dict: dict, exif: array, index: self.filelist.count))
-                            }
-                        }
-                    }
-                    self.newFilelist = self.filelist
-                } catch {
-                    print("\(#file) \(#line): Error while enumerating files \(openPanel.url!): \(error.localizedDescription)")
-                }
+                self.loadDirectoryContents(of: openPanel.url!.absoluteString, url: openPanel.url!)
             } else {
                 // User canceled the dialog
+                return
             }
         }
-    //    return fileURLs
     }
     
     func openFile() {}
