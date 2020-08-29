@@ -52,7 +52,6 @@ class ContentViewModel: ObservableObject {
         print("\(#file) \(#line): \(url.path)")
         
         var dict: Dictionary<String, String>
-        let array: Array<EXIFTag> = []
         let filename = url.pathComponents[url.pathComponents.count - 1].components(separatedBy: ".")[0]
         let exifpath = Bundle.main.path(forResource: "exiftool", ofType: "")
         dict = ["filename": filename, "extension": url.pathExtension]
@@ -72,8 +71,8 @@ class ContentViewModel: ObservableObject {
         if dict.keys.count == 0 {
             return
         }
-        self.filelist.append(File(dict: dict, exif: array, index: self.filelist.count))
-        self.newFilelist.append(File(dict: dict, exif: array, index: self.newFilelist.count))
+        self.filelist.append(File(dict: dict, index: self.filelist.count))
+        self.newFilelist.append(File(dict: dict, index: self.newFilelist.count))
     }
     
     fileprivate func loadDirectoryContents(of filepath: String, url: URL) {
@@ -126,8 +125,6 @@ class ContentViewModel: ObservableObject {
         
         for file in self.filelist {
             if (file.id == self.selectedFiles.first) {
-                print ("\(#file) \(#line): Updating EXIF list to:")
-                print("\(#file) \(#line): \(file.exif)")
                 self.exifProperties = ["filename"]
                 for (exifTag, value) in file.dict {
                     self.exifProperties.append(exifTag)
@@ -150,5 +147,7 @@ class ContentViewModel: ObservableObject {
             
             i += 1
         } while (i < self.newFilelist.count)
+        self.newFilelist.append(File(dict: [:], index: self.newFilelist.count))
+        self.newFilelist.remove(at: self.newFilelist.count - 1)
     }
 }

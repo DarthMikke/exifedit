@@ -8,24 +8,24 @@
 
 import Foundation
 
-struct EXIFTag: Identifiable {
-    var id = UUID()
-    var EXIFid: Int
-    var type: Int
-    var count: Int
-    var value: String
-}
+//struct EXIFTag: Identifiable {
+//    var id = UUID()
+//    var EXIFid: Int
+//    var type: Int
+//    var count: Int
+//    var value: String
+//}
 
 class File: Identifiable {
     let id: UUID
     @Published var dict:  Dictionary<String, String>
-    @Published var exif:  Array<EXIFTag>
+//    @Published var exif:  Array<EXIFTag>
     @Published var index: Int
     
-    init (dict: Dictionary<String, String>, exif: Array<EXIFTag>, index: Int) {
+    init (dict: Dictionary<String, String>, index: Int) {
         self.id = UUID()
         self.dict = dict
-        self.exif = exif
+//        self.exif = exif
         self.index = index
     }
     
