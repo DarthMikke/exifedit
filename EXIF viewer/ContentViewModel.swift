@@ -44,21 +44,32 @@ class ContentViewModel: ObservableObject {
         self.fileManager = FileManager.default
     }
     
-    fileprivate func addFile(_ rawimage: RawImage, _ filename: String, _ url: URL) {
-        if rawimage.tagCount != -1 {
-            print("\(#file) \(#line):", filename, url.pathExtension)
-            var dict: Dictionary<String, String>
-            var array: Array<EXIFTag> = []
-            dict = ["filename": filename, "extension": url.pathExtension]
-            for tag in rawimage.exifTags {
-                if exiftags.keys.contains(tag.EXIFid) {
-                    dict[exiftags[tag.EXIFid]!] = tag.value
-                    array.append(tag)
-                }
-            }
-            print("\(#file) \(#line): \(array)")
-            self.filelist.append(File(dict: dict, exif: array, index: self.filelist.count))
+    fileprivate func addFile(url: URL) {
+        if(legalExtensions.contains(url.pathExtension)) {
+            print("\(#file) \(#line): \(url.path) is not an allowed file extension")
+            return
         }
+        print("\(#file) \(#line): \(url.path)")
+        let filename = url.pathComponents[url.pathComponents.count - 1].components(separatedBy: ".")[0]
+        let rawimage = RawImage(filepath: url.path)
+        print("\(#file) \(#line): \(rawimage.tagCount) tags")
+        if rawimage.tagCount < 0 {
+            // -1 er startverdien
+            return
+        }
+        
+        print("\(#file) \(#line):", filename, url.pathExtension)
+        var dict: Dictionary<String, String>
+        var array: Array<EXIFTag> = []
+        dict = ["filename": filename, "extension": url.pathExtension]
+        for tag in rawimage.exifTags {
+            if exiftags.keys.contains(tag.EXIFid) {
+                dict[exiftags[tag.EXIFid]!] = tag.value
+                array.append(tag)
+            }
+        }
+        print("\(#file) \(#line): \(array)")
+        self.filelist.append(File(dict: dict, exif: array, index: self.filelist.count))
     }
     
     fileprivate func loadDirectoryContents(of filepath: String, url: URL) {
@@ -75,13 +86,7 @@ class ContentViewModel: ObservableObject {
         do {
             fileURLs = try fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
             for url in fileURLs {
-                if(legalExtensions.contains(url.pathExtension)) {
-                    print("\(#file) \(#line): \(url.path)")
-                    let filename = url.pathComponents[url.pathComponents.count - 1].components(separatedBy: ".")[0]
-                    let rawimage = RawImage(filepath: url.path)
-                    print("\(#file) \(#line): \(rawimage.tagCount) tags")
-                    self.addFile(rawimage, filename, url)
-                }
+                self.addFile(url: url)
             }
             self.newFilelist = self.filelist
         } catch {
