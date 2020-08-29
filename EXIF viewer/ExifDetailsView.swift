@@ -18,7 +18,7 @@ struct ExifDetailsView: View {
             // MARK: Oversikt over EXIF-setlar
             Text("EXIF-data")
             List {
-                ForEach(self.datastore.exifProperties, id: \.self) { key in
+                ForEach(self.datastore.exifProperties.sorted(), id: \.self) { key in
                     VStack {
                         HStack {
                             Text("\(String(key))")

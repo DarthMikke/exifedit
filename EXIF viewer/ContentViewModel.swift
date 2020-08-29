@@ -72,15 +72,8 @@ class ContentViewModel: ObservableObject {
         if dict.keys.count == 0 {
             return
         }
-        
-//        for tag in rawimage.exifTags {
-//            if exiftags.keys.contains(tag.EXIFid) {
-//                dict[exiftags[tag.EXIFid]!] = tag.value
-//                array.append(tag)
-//            }
-//        }
-        print("\(#file) \(#line): \(array)")
         self.filelist.append(File(dict: dict, exif: array, index: self.filelist.count))
+        self.newFilelist.append(File(dict: dict, exif: array, index: self.newFilelist.count))
     }
     
     fileprivate func loadDirectoryContents(of filepath: String, url: URL) {
