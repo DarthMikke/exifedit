@@ -85,6 +85,7 @@ class ContentViewModel: ObservableObject {
         
         // Clear filelist
         self.filelist = []
+        self.newFilelist = []
         let fileManager = FileManager.default
         self.filepath = filepath
         do {
@@ -92,7 +93,7 @@ class ContentViewModel: ObservableObject {
             for url in fileURLs {
                 self.addFile(url: url)
             }
-            self.newFilelist = self.filelist
+//            self.newFilelist = self.filelist
         } catch {
             print("\(#file) \(#line): Error while enumerating files \(url): \(error.localizedDescription)")
         }

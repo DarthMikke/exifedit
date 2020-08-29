@@ -96,7 +96,7 @@ struct FileList: View {
                 }
                 else if (self.column == .secondary){
                     if self.datastore.newFilelist.count > 0 {
-                        ForEach(self.datastore.filelist, id: \.id) { file in
+                        ForEach(self.datastore.newFilelist, id: \.id) { file in
                             // 0 ..< self.datastore.filelist.count
                             VStack {
                                 FileListRow(file: file, column: self.column, activeColumns: self.$header)
