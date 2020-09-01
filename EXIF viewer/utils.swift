@@ -11,18 +11,18 @@ import SwiftUI
 
 //  TIFF Datatypes
 // TODO: Bør vera eit enum
-let UBYTE: Int = 1        // 8 bits
-let STRING: Int      = 2
-let USHORT    = 3        // 16 bits
-let ULONG     = 4
-let URATIO     = 5
-let BYTE     = 6        // 8 bits
+let UBYTE       = 1        // 8 bits
+let STRING      = 2
+let USHORT      = 3        // 16 bits
+let ULONG       = 4
+let URATIO      = 5
+let BYTE        = 6        // 8 bits
 let UBYTESEQ    = 7
-let SHORT     = 8        // 16 bits
-let LONG    = 9
-let RATIO    = 10
-let SINGLE    = 11
-let DOUBLE     = 12
+let SHORT       = 8        // 16 bits
+let LONG        = 9
+let RATIO       = 10
+let SINGLE      = 11
+let DOUBLE      = 12
 
 let pointers: Set = [STRING, URATIO, UBYTESEQ, RATIO]
 
