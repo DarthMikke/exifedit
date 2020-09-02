@@ -56,7 +56,7 @@ struct FileListRow : View, Identifiable {
                 Text(getProperty("filename"))
                     .fontWeight(.bold)
                 Spacer()
-                Text(getProperty("filename"))
+                Text(getProperty("extension"))
             }
             
             HStack {
