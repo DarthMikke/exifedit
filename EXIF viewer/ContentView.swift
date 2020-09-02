@@ -35,11 +35,16 @@ struct ContentView: View {
                 }
                 ExifDetailsView(selectedPropertyIndex: self.$selectedPropertyIndex, newProperty: self.$newProperty)
                     .environmentObject(viewModel)
-                FileList(availableColumns: self.availableColumns,
-                         header: self.header,
-                         selectKeeper: self.$viewModel.selectedNewFiles,
-                         column: Columns.secondary
-                ).environmentObject(self.viewModel)
+                VStack {
+                    FileList(availableColumns: self.availableColumns,
+                             header: self.header,
+                             selectKeeper: self.$viewModel.selectedNewFiles,
+                             column: Columns.secondary
+                    ).environmentObject(self.viewModel)
+                    Form {
+                        Button(action: {self.viewModel.savePreview()}) {Text("Lagre…")}
+                    }.padding(2)
+                }
             }
             .padding(0.0)
         }

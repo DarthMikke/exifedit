@@ -19,6 +19,7 @@ class ContentViewModel: ObservableObject {
     @Published  var selectedNewFiles: Set<UUID>
     @Published  var range:          Array<Int>
     @Published  var newRange:       Array<Int>
+    @Published  var property:       String
                 var fileManager:    FileManager
     
     init() {
@@ -31,6 +32,7 @@ class ContentViewModel: ObservableObject {
         self.range = []
         self.newRange = []
         
+        self.property = ""
         self.exifProperties = ["filename",
                                "Model",
                                "ModifyDate",
@@ -54,7 +56,7 @@ class ContentViewModel: ObservableObject {
         var dict: Dictionary<String, String>
         let filename = url.pathComponents[url.pathComponents.count - 1].components(separatedBy: ".")[0]
         let exifpath = Bundle.main.path(forResource: "exiftool", ofType: "")
-        dict = ["filename": filename, "extension": url.pathExtension]
+        dict = ["filename": filename, "extension": url.pathExtension, "path": url.path]
         let pattern = "^-([aA-zZ|0-9]+)=(.*)$"
         
         let output = runCommand(cmd: exifpath!, args: url.path, "-args").output
@@ -117,6 +119,23 @@ class ContentViewModel: ObservableObject {
     
     func openFile() {}
     
+    func savePreview() {
+        let exifpath = Bundle.main.path(forResource: "exiftool", ofType: "")
+        if self.property == "" {
+            print("\(#file) \(#line): No property to change")
+            return
+        }
+        print("\(#file) \(#line): Changing property", self.property)
+        for file in self.newFilelist {
+            let oldname = self.filelist[file.index].dict["path"]!
+            let newname = file.dict[self.property]! // treng utviding på slutten og fullstendig path
+            print("exiftool -filename=\"\(newname)\" \(oldname)")
+            
+            // exiftool -filename="2020:07:15 00:55:46 Canon EOS 6D.%%le" ./test.CR2
+            // runCommand(cmd: exifpath, args: ["-filename=\"\(newname)\"", oldname])
+        }
+    }
+    
     func getExif() -> Void {
         print("\(#file) \(#line): \(self.selectedFiles.count) files are selected")
         if self.selectedFiles.count == 0 {
@@ -137,6 +156,7 @@ class ContentViewModel: ObservableObject {
     }
     
     func preview(property: String, value: String) {
+        self.property = property
         var i = 0
         repeat {
             print("\(#file) \(#line): New value of property \(property): '\(value)' for file \(self.newFilelist[i].dict["filename"]!)")
