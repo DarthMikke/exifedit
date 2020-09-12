@@ -120,7 +120,7 @@ class ContentViewModel: ObservableObject {
     func openFile() {}
     
     func savePreview() {
-        let exifpath = Bundle.main.path(forResource: "exiftool", ofType: "")
+        let exifpath = Bundle.main.path(forResource: "exiftool", ofType: "")!
         if self.property == "" {
             print("\(#file) \(#line): No property to change")
             return
@@ -129,10 +129,10 @@ class ContentViewModel: ObservableObject {
         for file in self.newFilelist {
             let oldname = self.filelist[file.index].dict["path"]!
             let newname = file.dict[self.property]! // treng utviding på slutten og fullstendig path
-            print("exiftool -filename=\"\(newname).%e\" \(oldname)")
+            print("exiftool \"-filename=\(newname).%e\" \"\(oldname)\"")
             
-            // exiftool -filename="2020:07:15 00:55:46 Canon EOS 6D.%%le" ./test.CR2
-            // runCommand(cmd: exifpath, args: ["-filename=\"\(newname)\"", oldname])
+            // exiftool -filename="2020:07:15 00:55:46 Canon EOS 6D.%e" ./test.CR2
+            print(runCommand(cmd: exifpath, args: "-filename=\(newname).%e", oldname).output)
         }
     }
     
@@ -165,7 +165,7 @@ class ContentViewModel: ObservableObject {
 //            self.newFileList[i].changeValue(property: property, value: value)
             
             if property == "filename" {
-                var newname = unwrapProperty(property: property, newValue: value, withData: self.newFilelist[i].dict)
+                let newname = unwrapProperty(property: property, newValue: value, withData: self.newFilelist[i].dict)
                 
                 var counter = 0
                 for file in self.newFilelist {
