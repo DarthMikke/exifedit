@@ -11,9 +11,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel = ContentViewModel()
-    
-    var availableColumns = ["filename": "Namn","extension": "Format", "ModifyDate": "Dato", "Model": "Modell"]
-    var header = ["filename", "ModifyDate", "Model"]
+
 
     // EXIF-vindu
     @State var selectedPropertyIndex = 0
@@ -24,8 +22,8 @@ struct ContentView: View {
             //Navbar
             HSplitView {
                 VStack {
-                    FileList(availableColumns: self.availableColumns,
-                             header: self.header,
+                    FileList(availableColumns: availableColumns,
+                             header: header,
                              selectKeeper: self.$viewModel.selectedFiles,
                              column: Columns.primary
                             ).environmentObject(self.viewModel)
@@ -36,8 +34,8 @@ struct ContentView: View {
                 ExifDetailsView(selectedPropertyIndex: self.$selectedPropertyIndex, newProperty: self.$newProperty)
                     .environmentObject(viewModel)
                 VStack {
-                    FileList(availableColumns: self.availableColumns,
-                             header: self.header,
+                    FileList(availableColumns: availableColumns,
+                             header: header,
                              selectKeeper: self.$viewModel.selectedNewFiles,
                              column: Columns.secondary
                     ).environmentObject(self.viewModel)
