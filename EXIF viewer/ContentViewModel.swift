@@ -129,7 +129,7 @@ class ContentViewModel: ObservableObject {
         for file in self.newFilelist {
             let oldname = self.filelist[file.index].dict["path"]!
             let newname = file.dict[self.property]! // treng utviding på slutten og fullstendig path
-            print("exiftool -filename=\"\(newname)\" \(oldname)")
+            print("exiftool -filename=\"\(newname).%e\" \(oldname)")
             
             // exiftool -filename="2020:07:15 00:55:46 Canon EOS 6D.%%le" ./test.CR2
             // runCommand(cmd: exifpath, args: ["-filename=\"\(newname)\"", oldname])
@@ -163,7 +163,22 @@ class ContentViewModel: ObservableObject {
             /// TODO: Error handling – vis beskjed om "property" har feil verdi
             /// Den kommenterte linja funkar ikkje
 //            self.newFileList[i].changeValue(property: property, value: value)
-            self.newFilelist[i].dict[property] = unwrapProperty(property: property, newValue: value, withData: self.newFilelist[i].dict)
+            
+            if property == "filename" {
+                var newname = unwrapProperty(property: property, newValue: value, withData: self.newFilelist[i].dict)
+                
+                var counter = 0
+                for file in self.newFilelist {
+                    if (file.dict["filename"] == newname + " \(counter)" && counter > 0) ||
+                        (file.dict["filename"] == newname && counter == 0) {
+                        counter += 1
+                    }
+                }
+                let appendix: String
+                if counter == 0 { appendix = "" }
+                else { appendix = " \(counter)" }
+                self.newFilelist[i].dict[property] = newname + appendix
+            }
             
             i += 1
         } while (i < self.newFilelist.count)
