@@ -7,14 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7526AA0324C89F1F009A52D1 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7526AA0224C89F1F009A52D1 /* utils.swift */; };
-		7526AA0524C89F39009A52D1 /* RawImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7526AA0424C89F39009A52D1 /* RawImage.swift */; };
+		753CC8B124EF02AD000C66BD /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753CC8B024EF02AD000C66BD /* utils.swift */; };
+		753CC8BB24EF0657000C66BD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753CC8BA24EF0657000C66BD /* main.swift */; };
+		753CC8BF24EF0665000C66BD /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7581565D24EC5087004ACF88 /* ContentViewModel.swift */; };
+		753CC8C024EF0665000C66BD /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544267C24C9635000D38482 /* FileListView.swift */; };
+		753CC8C124EF0665000C66BD /* FileListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544267E24C9657400D38482 /* FileListRowView.swift */; };
+		753CC8C224EF0665000C66BD /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7581565B24EC5060004ACF88 /* File.swift */; };
+		753CC8C324EF0665000C66BD /* DateOffsetPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DB3C2B24D20046009B0384 /* DateOffsetPicker.swift */; };
+		753CC8C624EF0665000C66BD /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753CC8B024EF02AD000C66BD /* utils.swift */; };
+		753CC8C724EF0665000C66BD /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AFD6E324DC82160077C7E5 /* functions.swift */; };
 		7544267D24C9635000D38482 /* FileListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544267C24C9635000D38482 /* FileListView.swift */; };
 		7544267F24C9657400D38482 /* FileListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7544267E24C9657400D38482 /* FileListRowView.swift */; };
 		7544268124C9C02600D38482 /* test.CR2 in Resources */ = {isa = PBXBuildFile; fileRef = 7544268024C9C02600D38482 /* test.CR2 */; };
+		755E1292250D306B007D64A3 /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755E1291250D306B007D64A3 /* config.swift */; };
+		755E1293250D306B007D64A3 /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755E1291250D306B007D64A3 /* config.swift */; };
 		757F59BF24C8BBA400F7B449 /* Image.png in Resources */ = {isa = PBXBuildFile; fileRef = 757F59BE24C8BBA400F7B449 /* Image.png */; };
-		7581565C24EC5060004ACF88 /* FileStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7581565B24EC5060004ACF88 /* FileStructure.swift */; };
+		7581565C24EC5060004ACF88 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7581565B24EC5060004ACF88 /* File.swift */; };
 		7581565E24EC5087004ACF88 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7581565D24EC5087004ACF88 /* ContentViewModel.swift */; };
+		75AFD13824F165C0001A5C7B /* ExifDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AFD13724F165C0001A5C7B /* ExifDetailsView.swift */; };
 		75AFD6E424DC82160077C7E5 /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AFD6E324DC82160077C7E5 /* functions.swift */; };
 		75D9A24924C726520047546F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D9A24824C726520047546F /* AppDelegate.swift */; };
 		75D9A24B24C726520047546F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D9A24A24C726520047546F /* ContentView.swift */; };
@@ -24,6 +34,10 @@
 		75D9A25F24C726570047546F /* EXIF_viewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D9A25E24C726570047546F /* EXIF_viewerTests.swift */; };
 		75D9A26A24C726570047546F /* EXIF_viewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D9A26924C726570047546F /* EXIF_viewerUITests.swift */; };
 		75DB3C2C24D20046009B0384 /* DateOffsetPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75DB3C2B24D20046009B0384 /* DateOffsetPicker.swift */; };
+		75F1470B24F2875000A726F9 /* exiftool in Resources */ = {isa = PBXBuildFile; fileRef = 75F1470924F2875000A726F9 /* exiftool */; };
+		75F1470C24F2875000A726F9 /* lib in Resources */ = {isa = PBXBuildFile; fileRef = 75F1470A24F2875000A726F9 /* lib */; };
+		75FEDD3E24FA42530004C5F9 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FEDD3D24FA42530004C5F9 /* Regex.swift */; };
+		75FEDD3F24FA42530004C5F9 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FEDD3D24FA42530004C5F9 /* Regex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,16 +57,31 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		753CC8B624EF0657000C66BD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		7526AA0224C89F1F009A52D1 /* utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
-		7526AA0424C89F39009A52D1 /* RawImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawImage.swift; sourceTree = "<group>"; };
 		7528F92724EC096D004602D5 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = MyPlayground.playground; path = "../../../../Library/Autosave Information/MyPlayground.playground"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		753CC8B024EF02AD000C66BD /* utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
+		753CC8B824EF0657000C66BD /* EXIF test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "EXIF test"; sourceTree = BUILT_PRODUCTS_DIR; };
+		753CC8BA24EF0657000C66BD /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		7544267C24C9635000D38482 /* FileListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListView.swift; sourceTree = "<group>"; };
 		7544267E24C9657400D38482 /* FileListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileListRowView.swift; sourceTree = "<group>"; };
 		7544268024C9C02600D38482 /* test.CR2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.CR2; sourceTree = "<group>"; };
+		755E1291250D306B007D64A3 /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
 		757F59BE24C8BBA400F7B449 /* Image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Image.png; sourceTree = "<group>"; };
-		7581565B24EC5060004ACF88 /* FileStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileStructure.swift; sourceTree = "<group>"; };
+		7581565B24EC5060004ACF88 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		7581565D24EC5087004ACF88 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		75AFD13724F165C0001A5C7B /* ExifDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExifDetailsView.swift; sourceTree = "<group>"; };
 		75AFD6E324DC82160077C7E5 /* functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
 		75D9A24524C726520047546F /* EXIF viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EXIF viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75D9A24824C726520047546F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,9 +98,19 @@
 		75D9A26924C726570047546F /* EXIF_viewerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EXIF_viewerUITests.swift; sourceTree = "<group>"; };
 		75D9A26B24C726570047546F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75DB3C2B24D20046009B0384 /* DateOffsetPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateOffsetPicker.swift; sourceTree = "<group>"; };
+		75F1470924F2875000A726F9 /* exiftool */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = exiftool; sourceTree = "<group>"; };
+		75F1470A24F2875000A726F9 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = lib; sourceTree = "<group>"; };
+		75FEDD3D24FA42530004C5F9 /* Regex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		753CC8B524EF0657000C66BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		75D9A24224C726520047546F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -96,12 +135,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		753CC8B924EF0657000C66BD /* EXIF test */ = {
+			isa = PBXGroup;
+			children = (
+				753CC8BA24EF0657000C66BD /* main.swift */,
+			);
+			path = "EXIF test";
+			sourceTree = "<group>";
+		};
 		75D9A23C24C726520047546F = {
 			isa = PBXGroup;
 			children = (
 				75D9A24724C726520047546F /* EXIF viewer */,
 				75D9A25D24C726570047546F /* EXIF viewerTests */,
 				75D9A26824C726570047546F /* EXIF viewerUITests */,
+				753CC8B924EF0657000C66BD /* EXIF test */,
 				75D9A24624C726520047546F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +160,7 @@
 				75D9A24524C726520047546F /* EXIF viewer.app */,
 				75D9A25A24C726570047546F /* EXIF viewerTests.xctest */,
 				75D9A26524C726570047546F /* EXIF viewerUITests.xctest */,
+				753CC8B824EF0657000C66BD /* EXIF test */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,14 +173,18 @@
 				7544268024C9C02600D38482 /* test.CR2 */,
 				75D9A24824C726520047546F /* AppDelegate.swift */,
 				75D9A24A24C726520047546F /* ContentView.swift */,
+				755E1291250D306B007D64A3 /* config.swift */,
 				7581565D24EC5087004ACF88 /* ContentViewModel.swift */,
+				75DB3C2B24D20046009B0384 /* DateOffsetPicker.swift */,
+				75AFD13724F165C0001A5C7B /* ExifDetailsView.swift */,
+				7581565B24EC5060004ACF88 /* File.swift */,
 				7544267C24C9635000D38482 /* FileListView.swift */,
 				7544267E24C9657400D38482 /* FileListRowView.swift */,
-				7581565B24EC5060004ACF88 /* FileStructure.swift */,
-				75DB3C2B24D20046009B0384 /* DateOffsetPicker.swift */,
-				7526AA0224C89F1F009A52D1 /* utils.swift */,
-				7526AA0424C89F39009A52D1 /* RawImage.swift */,
 				75AFD6E324DC82160077C7E5 /* functions.swift */,
+				753CC8B024EF02AD000C66BD /* utils.swift */,
+				75FEDD3D24FA42530004C5F9 /* Regex.swift */,
+				75F1470924F2875000A726F9 /* exiftool */,
+				75F1470A24F2875000A726F9 /* lib */,
 				75D9A24C24C726570047546F /* Assets.xcassets */,
 				75D9A25124C726570047546F /* Main.storyboard */,
 				75D9A25424C726570047546F /* Info.plist */,
@@ -170,6 +223,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		753CC8B724EF0657000C66BD /* EXIF test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 753CC8BC24EF0657000C66BD /* Build configuration list for PBXNativeTarget "EXIF test" */;
+			buildPhases = (
+				753CC8B424EF0657000C66BD /* Sources */,
+				753CC8B524EF0657000C66BD /* Frameworks */,
+				753CC8B624EF0657000C66BD /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "EXIF test";
+			productName = "EXIF test";
+			productReference = 753CC8B824EF0657000C66BD /* EXIF test */;
+			productType = "com.apple.product-type.tool";
+		};
 		75D9A24424C726520047546F /* EXIF viewer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 75D9A26E24C726570047546F /* Build configuration list for PBXNativeTarget "EXIF viewer" */;
@@ -229,10 +299,13 @@
 		75D9A23D24C726520047546F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = "Michal Jan Warecki";
 				TargetAttributes = {
+					753CC8B724EF0657000C66BD = {
+						CreatedOnToolsVersion = 11.6;
+					};
 					75D9A24424C726520047546F = {
 						CreatedOnToolsVersion = 11.5;
 					};
@@ -262,6 +335,7 @@
 				75D9A24424C726520047546F /* EXIF viewer */,
 				75D9A25924C726570047546F /* EXIF viewerTests */,
 				75D9A26424C726570047546F /* EXIF viewerUITests */,
+				753CC8B724EF0657000C66BD /* EXIF test */,
 			);
 		};
 /* End PBXProject section */
@@ -271,9 +345,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75F1470B24F2875000A726F9 /* exiftool in Resources */,
 				75D9A25324C726570047546F /* Main.storyboard in Resources */,
 				75D9A25024C726570047546F /* Preview Assets.xcassets in Resources */,
 				75D9A24D24C726570047546F /* Assets.xcassets in Resources */,
+				75F1470C24F2875000A726F9 /* lib in Resources */,
 				7544268124C9C02600D38482 /* test.CR2 in Resources */,
 				757F59BF24C8BBA400F7B449 /* Image.png in Resources */,
 			);
@@ -296,18 +372,37 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		753CC8B424EF0657000C66BD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				753CC8C624EF0665000C66BD /* utils.swift in Sources */,
+				75FEDD3F24FA42530004C5F9 /* Regex.swift in Sources */,
+				753CC8C724EF0665000C66BD /* functions.swift in Sources */,
+				755E1293250D306B007D64A3 /* config.swift in Sources */,
+				753CC8C224EF0665000C66BD /* File.swift in Sources */,
+				753CC8BF24EF0665000C66BD /* ContentViewModel.swift in Sources */,
+				753CC8C324EF0665000C66BD /* DateOffsetPicker.swift in Sources */,
+				753CC8BB24EF0657000C66BD /* main.swift in Sources */,
+				753CC8C024EF0665000C66BD /* FileListView.swift in Sources */,
+				753CC8C124EF0665000C66BD /* FileListRowView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		75D9A24124C726520047546F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				7544267F24C9657400D38482 /* FileListRowView.swift in Sources */,
+				753CC8B124EF02AD000C66BD /* utils.swift in Sources */,
 				75DB3C2C24D20046009B0384 /* DateOffsetPicker.swift in Sources */,
 				7581565E24EC5087004ACF88 /* ContentViewModel.swift in Sources */,
-				7526AA0324C89F1F009A52D1 /* utils.swift in Sources */,
-				7581565C24EC5060004ACF88 /* FileStructure.swift in Sources */,
+				7581565C24EC5060004ACF88 /* File.swift in Sources */,
+				75FEDD3E24FA42530004C5F9 /* Regex.swift in Sources */,
+				75AFD13824F165C0001A5C7B /* ExifDetailsView.swift in Sources */,
 				75AFD6E424DC82160077C7E5 /* functions.swift in Sources */,
 				7544267D24C9635000D38482 /* FileListView.swift in Sources */,
-				7526AA0524C89F39009A52D1 /* RawImage.swift in Sources */,
+				755E1292250D306B007D64A3 /* config.swift in Sources */,
 				75D9A24B24C726520047546F /* ContentView.swift in Sources */,
 				75D9A24924C726520047546F /* AppDelegate.swift in Sources */,
 			);
@@ -356,6 +451,24 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		753CC8BD24EF0657000C66BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		753CC8BE24EF0657000C66BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		75D9A26C24C726570047546F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -596,6 +709,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		753CC8BC24EF0657000C66BD /* Build configuration list for PBXNativeTarget "EXIF test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				753CC8BD24EF0657000C66BD /* Debug */,
+				753CC8BE24EF0657000C66BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		75D9A24024C726520047546F /* Build configuration list for PBXProject "EXIF viewer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
